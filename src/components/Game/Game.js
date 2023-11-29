@@ -4,8 +4,6 @@ import { sample } from '../../utils';
 import { WORDS } from '../../data';
 import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
-import HappyBanner from '../HappyBanner';
-import SadBanner from '../SadBanner';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -18,8 +16,19 @@ function Game() {
 
   return (
   <>
-    <GuessResults guessList={guessList} answer={answer}></GuessResults>
-    <GuessInput guess={guess} setGuess={setGuess} guessList={guessList} setGuessList={setGuessList}></GuessInput>
+    <GuessResults
+      guessList={guessList}
+      answer={answer}
+      >
+    </GuessResults>
+    <GuessInput
+      answer={answer}
+      guess={guess}
+      setGuess={setGuess}
+      guessList={guessList}
+      setGuessList={setGuessList}
+    >
+    </GuessInput>
   </>
   );
 }

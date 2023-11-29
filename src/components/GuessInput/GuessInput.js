@@ -1,23 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
+import HappyBanner from '../HappyBanner';
+import SadBanner from '../SadBanner';
 
 function GuessInput({ guess, setGuess, guessList, setGuessList, answer }) {
+  const [gameState, setGameState] = useState('pre');
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info({ guess });
-    guessList.push(guess)
-    setGuessList(guessList)
-    setGuess('')
+    guessList.push(guess);
+    setGuessList(guessList);
+    setGuess('');
+    checkIfWonOrLost();
+  }
+
+  const checkIfWonOrLost = () => {
+    if (guessList.includes(answer.toLowerCase())) {
+      setGameState('won');
+      setIsDisabled(true);
+    } else if (guessList.length > 5) {
+      setGameState('lost');
+      setIsDisabled(true);
+    }
   }
 
   return (
     <>
+      {gameState === 'won' && <HappyBanner numGuesses={guessList.length}></HappyBanner>}
+      {gameState === 'lost' && <SadBanner answer={answer}></SadBanner>}
       <form className="guess-input-wrapper" onSubmit={handleSubmit}>
         <label htmlFor="guess-input">Enter guess:</label>
         <input
           id="guess-input"
           type="text"
           value={guess}
+          disabled={isDisabled}
           onChange={(e) => {
             setGuess(e.target.value)
           }}
